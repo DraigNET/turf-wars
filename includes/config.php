@@ -7,7 +7,7 @@
 return [
     'app' => [
         'name'         => 'The Streets: Turf Wars',
-        'base_url'     => getenv('APP_BASE_URL')     ?: 'http://turfwars.solsroleplay.com',
+        'base_url'     => getenv('APP_BASE_URL')     ?: 'http://turfwars.YOURDOMAIN.com',
         'session_name' => getenv('APP_SESSION_NAME') ?: 'stw_session',
         'maintenance'  => false,
     ],
