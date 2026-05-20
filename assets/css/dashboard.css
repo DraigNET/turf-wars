@@ -1,0 +1,900 @@
+:root {
+    --accent: #3b82f6;
+    --accent-soft: rgba(59,130,246,0.15);
+    --accent-glow: rgba(59,130,246,0.25);
+}
+
+/* =========================
+RESET / GLOBAL
+========================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(255,122,0,0.12), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(220,38,38,0.10), transparent 32%),
+        #0a0a0a;
+    color: #e4e4e7;
+    font-family: system-ui, sans-serif;
+    font-size: 13px;
+}
+
+h1, h2, h3, .panel-title, .nav-label {
+    font-family: 'Rajdhani', sans-serif;
+}
+
+/* =========================
+GAME SHELL
+========================= */
+.game-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================
+TOP HUD BAR
+========================= */
+.game-topbar {
+    height: 66px;
+    flex-shrink: 0;
+    background: rgba(9,9,11,0.97);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    gap: 12px;
+    position: relative;
+    z-index: 50;
+}
+
+.topbar-logo img {
+    height: 34px;
+    width: auto;
+    display: block;
+}
+
+.topbar-sep {
+    width: 1px;
+    height: 29px;
+    background: rgba(255,255,255,0.1);
+    flex-shrink: 0;
+}
+
+.topbar-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.topbar-stat .lbl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #52525b;
+    line-height: 1;
+}
+
+.topbar-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.topbar-track {
+    width: 70px;
+    height: 5px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.topbar-fill {
+    height: 5px;
+    border-radius: 2px;
+    transition: width 0.3s;
+    max-width: 100%;
+}
+
+.topbar-fill.hp  { background: #ef4444; }
+.topbar-fill.xp  { background: var(--accent); }
+
+.topbar-val {
+    font-size: 11px;
+    font-weight: 700;
+    color: #a1a1aa;
+    white-space: nowrap;
+}
+
+.topbar-qs {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex-shrink: 0;
+}
+
+.topbar-qs .ql {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #52525b;
+    line-height: 1;
+}
+
+.topbar-qs .qv {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.topbar-player {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.topbar-name {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.topbar-badge {
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.topbar-lvl {
+    font-size: 12px;
+    color: #71717a;
+    font-weight: 600;
+}
+
+/* =========================
+GAME BODY
+========================= */
+.game-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* =========================
+LEFT NAV
+========================= */
+.game-nav {
+    width: 162px;
+    flex-shrink: 0;
+    background: rgba(9,9,11,0.95);
+    border-right: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    flex-direction: column;
+    padding: 8px 6px;
+    gap: 1px;
+    overflow-y: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 9px;
+    border-radius: 7px;
+    font-size: 13px;
+    color: #71717a;
+    text-decoration: none;
+    transition: all 0.14s;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.nav-item:hover {
+    color: #e4e4e7;
+    background: rgba(255,255,255,0.05);
+}
+
+.nav-item.active {
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-color: rgba(255,255,255,0.06);
+}
+
+.nav-icon {
+    width: 17px;
+    text-align: center;
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.nav-label {
+    font-weight: 600;
+}
+
+.nav-spacer { flex: 1; }
+
+.nav-logout { color: #7f1d1d; }
+.nav-logout:hover {
+    color: #fca5a5;
+    background: rgba(239,68,68,0.1);
+}
+
+.nav-version {
+    font-size: 9px;
+    color: #27272a;
+    text-align: center;
+    padding: 6px 0 2px;
+}
+
+/* =========================
+MAIN CONTENT AREA
+========================= */
+.game-main {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+/* Dashboard variant — no self-scroll, columns handle it */
+.game-main.is-dashboard {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* =========================
+DASHBOARD 3-COLUMN GRID
+========================= */
+.dash-grid {
+    display: grid;
+    grid-template-columns: 190px 1fr 236px;
+    gap: 8px;
+    flex: 1;
+    min-height: 0;
+}
+
+.dash-left,
+.dash-center {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.dash-right {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Activity panel fills remaining space in center */
+.dash-activity {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-activity .activity-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* Chat takes full right column */
+.chat-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+#chat-box {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* =========================
+PANELS
+========================= */
+.panel {
+    position: relative;
+    overflow: hidden;
+    background: rgba(17,24,39,0.82);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-top: 2px solid var(--accent);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    border-radius: 9px;
+    padding: 10px 11px;
+    flex-shrink: 0;
+}
+
+.panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent), transparent);
+    opacity: 0.06;
+    pointer-events: none;
+}
+
+.panel-title {
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.09em;
+    margin-bottom: 7px;
+}
+
+/* =========================
+MINI CARDS
+========================= */
+.mini-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+}
+
+/* =========================
+BUTTONS
+========================= */
+.action-btn {
+    transition: all 0.16s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px var(--accent-glow);
+}
+
+/* =========================
+STAT BARS (in panels)
+========================= */
+.bar-track {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    height: 5px;
+    flex-shrink: 0;
+}
+
+.bar-fill {
+    height: 5px;
+    border-radius: 3px;
+    transition: width 0.4s;
+    max-width: 100%;
+}
+
+/* =========================
+WAR ALERT BANNER
+========================= */
+.war-banner {
+    padding: 6px 11px;
+    background: rgba(127,29,29,0.5);
+    border: 1px solid rgba(239,68,68,0.4);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #fca5a5;
+    flex-shrink: 0;
+}
+
+.flash-box {
+    padding: 6px 11px;
+    background: rgba(34,197,94,0.12);
+    border: 1px solid rgba(34,197,94,0.35);
+    color: #86efac;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* =========================
+MOVE MODAL
+========================= */
+.move-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+}
+
+.move-modal-overlay.open {
+    display: flex;
+}
+
+.move-modal {
+    background: #111827;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-top: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 16px;
+    width: 520px;
+    max-height: 68vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.move-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.move-modal-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--accent);
+}
+
+.move-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 2px;
+}
+
+.move-modal-close {
+    font-size: 11px;
+    color: #71717a;
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    border: none;
+}
+
+.move-modal-close:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+
+/* =========================
+TURF MAP
+========================= */
+#turf-map, #turf-map * {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#turf-map {
+    width: 100%;
+    max-width: 1100px;
+    height: 65vh;
+    max-height: 700px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 12px;
+    position: relative;
+    cursor: grab;
+}
+
+#turf-map:active { cursor: grabbing; }
+
+#turf-stage {
+    position: absolute;
+    left: 0; top: 0;
+    width: 6144px; height: 6144px;
+    transform-origin: 0 0;
+}
+
+#turf-stage img {
+    position: absolute;
+    width: 6144px; height: 6144px;
+    user-select: none;
+    pointer-events: none;
+}
+
+#turf-overlay {
+    position: absolute;
+    left: 0; top: 0;
+    pointer-events: auto;
+}
+
+.turf-rect {
+    pointer-events: all;
+    cursor: pointer;
+}
+
+#turf-tooltip {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    background: #111827;
+    border: 1px solid #27272a;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #e4e4e7;
+    opacity: 0;
+    transition: opacity 0.1s;
+}
+
+/* =========================
+FORM INPUTS
+========================= */
+.input {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 13px;
+    color: #fff;
+    width: 100%;
+    transition: border 0.15s;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* =========================
+ALERTS
+========================= */
+.error-box {
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.4);
+    color: #fca5a5;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+/* =========================
+SCROLLBARS
+========================= */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: rgba(255,255,255,0.28) transparent;
+}
+
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.24);
+    border-radius: 8px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.38);
+    background-clip: content-box;
+}
+
+/* =========================
+TURF MAP PAGE
+========================= */
+.game-main.is-turf {
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+}
+
+.game-main.is-turf #turf-map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    margin: 0;
+}
+
+/* Zone list overlay panel */
+.turf-zone-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 220px;
+    max-height: calc(100% - 20px);
+    background: rgba(9,9,11,0.90);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-top: 2px solid var(--accent);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    overflow: hidden;
+    transition: width 0.2s, max-height 0.2s;
+}
+
+.turf-zone-panel.collapsed {
+    max-height: 36px;
+}
+
+.turf-zone-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0;
+    min-height: 34px;
+}
+
+.turf-panel-toggle {
+    font-size: 12px;
+    color: #52525b;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 5px;
+    border-radius: 4px;
+    line-height: 1;
+}
+
+.turf-panel-toggle:hover { color: #e4e4e7; }
+
+.turf-zone-list {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    padding: 5px;
+}
+
+.turf-zone-panel.collapsed .turf-zone-list {
+    display: none;
+}
+
+.turf-zone-item {
+    border-radius: 6px;
+    margin-bottom: 2px;
+    border: 1px solid transparent;
+    transition: border-color 0.15s;
+    overflow: hidden;
+}
+
+.turf-zone-item.open {
+    border-color: rgba(255,255,255,0.09);
+    background: rgba(255,255,255,0.04);
+}
+
+.turf-zone-item.map-highlighted {
+    border-color: var(--accent) !important;
+}
+
+.turf-zone-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 7px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 11px;
+    user-select: none;
+}
+
+.turf-zone-row:hover { background: rgba(255,255,255,0.06); }
+
+.turf-zone-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.turf-zone-name {
+    flex: 1;
+    font-weight: 600;
+    color: #d4d4d8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.turf-zone-here { color: var(--accent); }
+
+.turf-here-badge {
+    font-size: 8px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 0 3px;
+    margin-left: 3px;
+    vertical-align: middle;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.turf-zone-lead {
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.turf-zone-chevron {
+    font-size: 13px;
+    color: #52525b;
+    flex-shrink: 0;
+    transition: transform 0.15s;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.turf-zone-item.open .turf-zone-chevron { transform: rotate(90deg); }
+
+.turf-zone-detail {
+    display: none;
+    padding: 2px 7px 7px;
+}
+
+.turf-zone-item.open .turf-zone-detail { display: block; }
+
+.turf-faction-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+    font-size: 10px;
+}
+
+.turf-faction-name {
+    width: 68px;
+    flex-shrink: 0;
+    color: #a1a1aa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.turf-faction-bar-wrap {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    height: 4px;
+    overflow: hidden;
+}
+
+.turf-faction-bar {
+    height: 4px;
+    border-radius: 2px;
+    max-width: 100%;
+}
+
+.turf-faction-pct {
+    width: 26px;
+    text-align: right;
+    color: #71717a;
+    flex-shrink: 0;
+}
+
+.turf-move-btn {
+    margin-top: 5px;
+    width: 100%;
+    padding: 3px 0;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    transition: background 0.14s;
+    letter-spacing: 0.04em;
+}
+
+.turf-move-btn:hover { background: var(--accent); color: #fff; }
+.turf-move-btn:disabled { opacity: 0.4; cursor: default; }
+
+/* Zoom controls (repositioned for full-bleed map) */
+.game-main.is-turf #turf-zoom-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.game-main.is-turf #zoom-in,
+.game-main.is-turf #zoom-out {
+    background: rgba(9,9,11,0.88);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e4e4e7;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+}
+
+.game-main.is-turf #zoom-in:hover,
+.game-main.is-turf #zoom-out:hover { background: rgba(255,255,255,0.12); }
+
+/* =========================
+ACTIONS PAGE
+========================= */
+.game-main.is-actions {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.actions-alerts {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 8px;
+    flex: 1;
+    min-height: 0;
+}
+
+.actions-left,
+.actions-right {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* =========================
+FACTION THEMES
+========================= */
+.theme-grove   { --accent: #22c55e; --accent-soft: rgba(34,197,94,0.15);   --accent-glow: rgba(16,202,84,0.40); }
+.theme-ballas  { --accent: #d93bf8; --accent-soft: rgba(217,59,248,0.15);  --accent-glow: rgba(168,85,247,0.40); }
+.theme-aztecas { --accent: #06b6d4; --accent-soft: rgba(6,182,212,0.15);   --accent-glow: rgba(3,182,214,0.40); }
+.theme-vagos   { --accent: #eab308; --accent-soft: rgba(234,179,8,0.15);   --accent-glow: rgba(234,179,8,0.40); }
+.theme-lspd    { --accent: #3b82f6; --accent-soft: rgba(59,130,246,0.15);  --accent-glow: rgba(59,130,246,0.40); }
+.theme-triads  { --accent: #ef4444; --accent-soft: rgba(239,68,68,0.15);   --accent-glow: rgba(239,68,68,0.40); }
